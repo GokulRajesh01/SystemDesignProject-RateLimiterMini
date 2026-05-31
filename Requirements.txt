@@ -1,1 +1,56 @@
-Requirements - RateLimiterMini
+SYSTEM DESIGN PROJECT 2: RATE LIMITER MINI
+
+Functional Requirements
+
+The system shall allow a maximum of 10 requests per user to a protected API endpoint within a rolling 60-minute window.
+The system shall identify requests using a unique user identifier provided with each request.
+Requests exceeding the configured rate limit shall be rejected with HTTP 429 (Too Many Requests).
+The system shall enforce rate limits using a rolling time window rather than fixed time buckets.
+The system shall maintain independent request counts for each user.
+
+Non-Functional Requirements
+
+The system shall support up to 1000 requests per second.
+The system shall maintain a p95 latency below 100 milliseconds for rate-limit evaluation.
+The solution shall be lightweight and operate entirely in memory.
+
+Traffic Estimation
+
+Assumptions:
+
+Daily Active Users: 1,000,000
+Daily API Requests: 10,000,000
+
+Average Requests Per Second (RPS):
+10,000,000 / (24 × 60 × 60)
+≈ 115.74 RPS
+
+Peak Requests Per Second:
+Assuming peak traffic is 2× average traffic,
+
+Peak RPS:
+115.74 × 2
+≈ 231.48 RPS
+
+Project Scope
+
+In Scope:
+
+Per-user rate limiting
+Single protected API endpoint
+Sliding Window Log rate limiting algorithm
+In-memory request tracking
+HTTP 429 response handling
+Request counting within a rolling 60-minute window
+
+Out of Scope:
+
+Database persistence
+Redis or distributed caching
+Distributed rate limiting across multiple application instances
+API Gateway integration
+Authentication and authorization systems
+Subscription plans and billing
+Admin dashboards and analytics
+Multi-region deployments
+Horizontal scaling across multiple servers
